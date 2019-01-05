@@ -17,6 +17,8 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import okhttp3.HttpUrl;
 
 
@@ -44,6 +46,7 @@ public class LoginFragment extends Fragment {
 
     @BindView(R.id.button_login)
     Button loginButton;
+    private Unbinder uibinder;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -74,6 +77,7 @@ public class LoginFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -87,12 +91,22 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        uibinder = ButterKnife.bind(this, view);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadGithubLoginPage();
             }
         });
+
+
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        uibinder.unbind();
     }
 
     private void loadGithubLoginPage() {
@@ -106,13 +120,12 @@ public class LoginFragment extends Fragment {
                 .addPathSegment("authorize")
                 .addQueryParameter("client_id", Constants.GITHUB_CLIENT_ID)
                 .addQueryParameter("redirect_uri", Constants.REDIRECT_URL_CALLBACK)
-                .addQueryParameter("state", getRandomString())
-                .addQueryParameter("scope", "user:email")
+                .addQueryParameter("state", Utils.generateUniqueString(getActivity()))
+                .addQueryParameter("scope", "user:email, repo:status, notifications")
                 .build();
 
         Log.d(getTag(), httpUrl.toString());
 
-        //Approach 1
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(httpUrl.toString()));
         startActivity(intent);
 
@@ -159,5 +172,6 @@ public class LoginFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+        void openRepoPage();
     }
 }

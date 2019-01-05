@@ -3,11 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/loginFragment2">
+    app:startDestination="@id/reposFragment">
 
     <fragment
         android:id="@+id/loginFragment2"
         android:name="com.example.bhanu.github.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment2_to_reposFragment"
+            app:destination="@id/reposFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/app_navigation"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/reposFragment"
+        android:name="com.example.bhanu.github.repos.ui.ReposFragment"
+        android:label="fragment_repos"
+        tools:layout="@layout/fragment_repos" >
+        <action
+            android:id="@+id/action_reposFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_reposFragment_to_loginFragment2"
+            app:destination="@id/loginFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.example.bhanu.github.repos.ui.NotificationFragment"
+        android:label="fragment_notifications"
+        tools:layout="@layout/fragment_notifications" />
 </navigation>
