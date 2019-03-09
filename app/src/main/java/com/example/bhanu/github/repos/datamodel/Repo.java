@@ -7,6 +7,17 @@ public class Repo implements Serializable {
     private String name;
     private String full_name;
     private String html_url;
+    private int watchers_count;
+    private int forks_count;
+    private Owner owner;
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
 
     public String getName() {
         return name;
@@ -38,5 +49,42 @@ public class Repo implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getWatchers_count() {
+        return watchers_count;
+    }
+
+    public void setWatchers_count(int watchers_count) {
+        this.watchers_count = watchers_count;
+    }
+
+    public int getForks_count() {
+        return forks_count;
+    }
+
+    public void setForks_count(int forks_count) {
+        this.forks_count = forks_count;
+    }
+
+    public class Owner implements Serializable{
+        private int id;
+        private String avatar_url;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getAvatar_url() {
+            return avatar_url;
+        }
+
+        public void setAvatar_url(String avatar_url) {
+            this.avatar_url = avatar_url;
+        }
     }
 }

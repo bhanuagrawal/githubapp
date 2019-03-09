@@ -15,6 +15,8 @@ import com.example.bhanu.github.network.model.Token;
 import com.example.bhanu.github.network.WebService;
 import com.example.bhanu.github.repos.GithubViewModel;
 import com.example.bhanu.github.repos.ui.NotificationFragment;
+import com.example.bhanu.github.repos.ui.OnFragmentInteractionListener;
+import com.example.bhanu.github.repos.ui.RepoSearchFragmnet;
 import com.example.bhanu.github.repos.ui.ReposFragment;
 
 import androidx.navigation.fragment.NavHostFragment;
@@ -23,7 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener,
-        ReposFragment.OnFragmentInteractionListener, NotificationFragment.OnFragmentInteractionListener {
+        OnFragmentInteractionListener{
 
     private static final String CODE = "code";
     private static final String ERROR_CODE = "error";
@@ -78,6 +80,10 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
         switch (item.getItemId()){
             case R.id.notification:
                 navHostFragment.getNavController().navigate(R.id.notificationFragment);
+                break;
+            case R.id.search:
+                navHostFragment.getNavController().navigate(R.id.repoSearchFragmnet);
+                break;
 
         }
         return(super.onOptionsItemSelected(item));
@@ -123,6 +129,12 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
     @Override
     public void openRepoPage() {
         navHostFragment.getNavController().navigate(R.id.reposFragment);
+
+    }
+
+    @Override
+    public void openRepoDetailPage() {
+        navHostFragment.getNavController().navigate(R.id.repoDetailFragment);
 
     }
 }

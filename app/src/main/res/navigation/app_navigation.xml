@@ -29,10 +29,27 @@
         <action
             android:id="@+id/action_reposFragment_to_loginFragment2"
             app:destination="@id/loginFragment2" />
+        <action
+            android:id="@+id/action_reposFragment_to_repoSearchFragmnet"
+            app:destination="@id/repoSearchFragmnet" />
     </fragment>
     <fragment
         android:id="@+id/notificationFragment"
         android:name="com.example.bhanu.github.repos.ui.NotificationFragment"
         android:label="fragment_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/repoSearchFragmnet"
+        android:name="com.example.bhanu.github.repos.ui.RepoSearchFragmnet"
+        android:label="fragment_repo_search_fragmnet"
+        tools:layout="@layout/fragment_repo_search_fragmnet" >
+        <action
+            android:id="@+id/action_repoSearchFragmnet_to_repoDetailFragment"
+            app:destination="@id/repoDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/repoDetailFragment"
+        android:name="com.example.bhanu.github.repos.ui.RepoDetailFragment"
+        android:label="fragment_repo_detail"
+        tools:layout="@layout/fragment_repo_detail" />
 </navigation>

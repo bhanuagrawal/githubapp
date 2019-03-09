@@ -2,12 +2,16 @@ package com.example.bhanu.github.repos.ui;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.bhanu.github.R;
 import com.example.bhanu.github.repos.datamodel.EventVO;
 import com.example.bhanu.github.repos.datamodel.Repo;
@@ -88,21 +92,47 @@ public class ItemAdater<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     class RepoViewHolder extends RecyclerView.ViewHolder {
 
+
+        @BindView(R.id.repolayout)
+        ConstraintLayout layout;
+
+        @BindView(R.id.imageView2)
+        ImageView avatar;
+
         @BindView(R.id.name)
         TextView name;
 
         @BindView(R.id.full_name)
         TextView fullName;
 
+        @BindView(R.id.watcher_count)
+        TextView watcherCount;
+
+        @BindView(R.id.commit_count)
+        TextView commitCount;
+
         public RepoViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
         }
 
 
         public void onBind(Repo repo) {
+
             name.setText(repo.getName());
             fullName.setText(repo.getFull_name());
+            watcherCount.setText("watchers: "+ repo.getWatchers_count());
+            commitCount.setText("forks: " + repo.getForks_count());
+            Glide.with(context)
+                    .load(repo.getOwner().getAvatar_url())
+                    .into(avatar);
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemAdaterListner.onRepoSelected(repo.getId());
+                }
+            });
         }
 
 
@@ -138,5 +168,6 @@ public class ItemAdater<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     public interface ItemAdaterListner{
+        void onRepoSelected(int id);
     }
 }
