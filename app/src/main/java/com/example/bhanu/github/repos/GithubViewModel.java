@@ -26,6 +26,9 @@ public class GithubViewModel extends AndroidViewModel {
     private MutableLiveData<Repo> repoDetailMutableLiveData;
     private MutableLiveData<ArrayList<UserVO>> contibutersLiveData;
     private MutableLiveData<ArrayList<Repo>> userReposLiveData;
+    private Call<SearchResult> repoSearchCall;
+
+
 
     public MutableLiveData<ArrayList<Repo>> getUserReposLiveData() {
         if(userReposLiveData == null){
@@ -70,7 +73,13 @@ public class GithubViewModel extends AndroidViewModel {
     }
 
     public void searchRepos(String keyword) {
-        githubRepos.searchRepos(keyword, new Callback<SearchResult>() {
+
+        if(repoSearchCall != null){
+            repoSearchCall.cancel();
+
+        }
+
+        repoSearchCall = githubRepos.searchRepos(keyword, new Callback<SearchResult>() {
             @Override
             public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
 

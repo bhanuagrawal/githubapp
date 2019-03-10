@@ -11,6 +11,7 @@ import com.example.bhanu.github.repos.datamodel.UserVO;
 import java.util.ArrayList;
 
 
+import retrofit2.Call;
 import retrofit2.Callback;
 
 
@@ -28,8 +29,10 @@ public class GithubRepoRepository {
     }
 
 
-    public void searchRepos(String keyword, Callback<SearchResult> callback){
-        githubService.searcbRepos(keyword).enqueue(callback);
+    public Call<SearchResult> searchRepos(String keyword, Callback<SearchResult> callback){
+        Call<SearchResult> call = githubService.searcbRepos(keyword);
+        call.enqueue(callback);
+        return call;
     }
 
     public void getRepoDetail(int id, Callback<Repo> callback){
