@@ -3,6 +3,7 @@ package com.example.bhanu.github.repos.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -118,6 +119,13 @@ public class RepoDetailFragment extends Fragment implements ItemAdater.ItemAdate
         name.setText(repo.getName());
         description.setText(repo.getDescription());
         link.setText(repo.getHtml_url());
+        link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(repo.getHtml_url()));
+                startActivity(browserIntent);
+            }
+        });
         Glide.with(getContext())
                 .load(repo.getOwner().getAvatar_url())
                 .into(avatar);
