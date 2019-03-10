@@ -19,15 +19,14 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text=" "
             android:hint="Search Repos"
-            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toStartOf="@+id/filterIV"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/filterIV"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="5dp"

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.bhanu.github.repos.data.GithubRepoRepository;
+import com.example.bhanu.github.repos.datamodel.Filter;
 import com.example.bhanu.github.repos.datamodel.Repo;
 import com.example.bhanu.github.repos.datamodel.SearchResult;
 import com.example.bhanu.github.repos.datamodel.UserVO;
@@ -27,8 +28,11 @@ public class GithubViewModel extends AndroidViewModel {
     private MutableLiveData<ArrayList<UserVO>> contibutersLiveData;
     private MutableLiveData<ArrayList<Repo>> userReposLiveData;
     private Call<SearchResult> repoSearchCall;
+    private MutableLiveData<Filter> filterMutableLiveData;
 
-
+    public MutableLiveData<Filter> getFilterMutableLiveData() {
+        return filterMutableLiveData;
+    }
 
     public MutableLiveData<ArrayList<Repo>> getUserReposLiveData() {
         if(userReposLiveData == null){
@@ -70,9 +74,14 @@ public class GithubViewModel extends AndroidViewModel {
     public GithubViewModel(@NonNull Application application){
         super(application);
         githubRepos = new GithubRepoRepository(application);
+        filterMutableLiveData = new MutableLiveData<>();
+        Filter filter = new Filter();
+        filter.setPrivacy(Filter.PRIVACY.BOTH);
+        filterMutableLiveData.postValue(filter);
     }
 
     public void searchRepos(String keyword) {
+
 
         if(repoSearchCall != null){
             repoSearchCall.cancel();

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_repoSearchFragmnet_to_repoDetailFragment"
             app:destination="@id/repoDetailFragment" />
+        <action
+            android:id="@+id/action_repoSearchFragmnet_to_searchFilterFragment"
+            app:destination="@id/searchFilterFragment" />
     </fragment>
     <fragment
         android:id="@+id/repoDetailFragment"
@@ -42,4 +45,9 @@
             app:destination="@id/repoDetailFragment" />
 
     </fragment>
+    <fragment
+        android:id="@+id/searchFilterFragment"
+        android:name="com.example.bhanu.github.repos.ui.SearchFilterFragment"
+        android:label="fragment_blank2"
+        tools:layout="@layout/fragment_blank2" />
 </navigation>

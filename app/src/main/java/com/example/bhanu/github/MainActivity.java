@@ -8,11 +8,12 @@ import android.view.MenuItem;
 
 import com.example.bhanu.github.repos.ui.OnFragmentInteractionListener;
 import com.example.bhanu.github.repos.ui.RepoDetailFragmentDirections;
+import com.example.bhanu.github.repos.ui.SearchFilterFragment;
 
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 
-public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
     private NavHostFragment navHostFragment;
 
     @Override

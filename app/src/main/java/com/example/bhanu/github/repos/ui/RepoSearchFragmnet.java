@@ -1,5 +1,6 @@
 package com.example.bhanu.github.repos.ui;
 
+import android.app.Dialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -16,9 +17,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.example.bhanu.github.R;
 import com.example.bhanu.github.repos.GithubViewModel;
+import com.example.bhanu.github.repos.datamodel.Filter;
 import com.example.bhanu.github.repos.datamodel.Repo;
 
 import java.util.ArrayList;
@@ -26,14 +29,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link RepoSearchFragmnet.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link RepoSearchFragmnet#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class RepoSearchFragmnet extends Fragment implements ItemAdater.ItemAdaterListner {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,9 +47,13 @@ public class RepoSearchFragmnet extends Fragment implements ItemAdater.ItemAdate
     @BindView(R.id.searchResult)
     RecyclerView reposRV;
 
+    @BindView(R.id.filterIV)
+    ImageView filterIV;
+
     private GithubViewModel githubViewModel;
     private Observer<ArrayList<Repo>> githubRepoObserver;
     private ItemAdater itemApadter;
+    private Observer<Filter> filterObserver;
 
     public RepoSearchFragmnet() {
         // Required empty public constructor
@@ -96,6 +95,19 @@ public class RepoSearchFragmnet extends Fragment implements ItemAdater.ItemAdate
         itemApadter = new ItemAdater(getContext(), this, ItemAdater.REPOS);
     }
 
+    private void setSearchKey(Filter filtet) {
+        if(filtet.getPrivacy() == Filter.PRIVACY.BOTH){
+            githubViewModel.searchRepos(searchbar.getText().toString());
+        }
+        else if(filtet.getPrivacy() == Filter.PRIVACY.PUBLIC){
+            githubViewModel.searchRepos(searchbar.getText().toString() + " is:public" );
+
+        }
+        else if(filtet.getPrivacy() == Filter.PRIVACY.PRIVATE){
+            githubViewModel.searchRepos(searchbar.getText().toString() + " is:private" );
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -115,7 +127,7 @@ public class RepoSearchFragmnet extends Fragment implements ItemAdater.ItemAdate
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                githubViewModel.searchRepos(charSequence.toString());
+                setSearchKey(githubViewModel.getFilterMutableLiveData().getValue());
             }
 
             @Override
@@ -126,6 +138,13 @@ public class RepoSearchFragmnet extends Fragment implements ItemAdater.ItemAdate
 
         reposRV.setLayoutManager(new LinearLayoutManager(getContext()));
         reposRV.setAdapter(itemApadter);
+
+        filterIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.openPage(RepoSearchFragmnetDirections.actionRepoSearchFragmnetToSearchFilterFragment());
+            }
+        });
     }
 
 
@@ -133,6 +152,7 @@ public class RepoSearchFragmnet extends Fragment implements ItemAdater.ItemAdate
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         githubViewModel.getSearchResultRepos().observe(this, githubRepoObserver);
+
     }
 
     @Override
@@ -157,6 +177,7 @@ public class RepoSearchFragmnet extends Fragment implements ItemAdater.ItemAdate
     public void onDestroyView() {
         super.onDestroyView();
         githubViewModel.getSearchResultRepos().removeObserver(githubRepoObserver);
+
     }
 
     @Override
@@ -170,6 +191,4 @@ public class RepoSearchFragmnet extends Fragment implements ItemAdater.ItemAdate
     public void onUserSelected(String username) {
 
     }
-
-
 }
