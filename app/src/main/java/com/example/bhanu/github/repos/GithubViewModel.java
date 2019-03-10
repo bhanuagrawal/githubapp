@@ -13,6 +13,9 @@ import com.example.bhanu.github.repos.datamodel.SearchResult;
 import com.example.bhanu.github.repos.datamodel.UserVO;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -92,12 +95,26 @@ public class GithubViewModel extends AndroidViewModel {
             @Override
             public void onResponse(Call<SearchResult> call, Response<SearchResult> response) {
 
+
+
                 if(response.isSuccessful()){
+
+                    ArrayList<Repo> repos = response.body().getItems();
+                    if(!response.body().getItems().isEmpty()){
+
+                        Collections.sort(repos, new Comparator<Repo>() {
+                            @Override
+                            public int compare(Repo o1, Repo o2) {
+                                return o2.getWatchers_count()-o1.getWatchers_count();
+                            }
+                        });
+
+                    }
                     try {
-                        getSearchResultRepos().postValue(new ArrayList<Repo>(response.body().getItems().subList(0, 10)));
+                        getSearchResultRepos().postValue(new ArrayList<Repo>(repos.subList(0, 10)));
                     }
                     catch (Exception e){
-                        getSearchResultRepos().postValue(response.body().getItems());
+                        getSearchResultRepos().postValue(repos);
                     }
                 }
             }
