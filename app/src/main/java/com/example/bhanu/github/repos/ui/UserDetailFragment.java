@@ -173,8 +173,9 @@ public class UserDetailFragment extends Fragment implements ItemAdater.ItemAdate
 
     @Override
     public void onRepoSelected(int id) {
-        mListener.openRepoDetailPage();
-        githubViewModel.getRepoDetail(id);
+        UserDetailFragmentDirections.ActionUserDetailFragmentToRepoDetailFragment action = UserDetailFragmentDirections.actionUserDetailFragmentToRepoDetailFragment();
+        action.setRepoId(id);
+        mListener.openPage(action);
     }
 
     @Override

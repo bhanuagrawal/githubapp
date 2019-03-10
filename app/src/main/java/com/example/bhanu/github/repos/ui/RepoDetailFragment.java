@@ -60,6 +60,7 @@ public class RepoDetailFragment extends Fragment implements ItemAdater.ItemAdate
     private Observer<Repo> githubRepoObserver;
     private ItemAdater itemApadter;
     private Observer<ArrayList<UserVO>> contributersObsever;
+    private int repoId;
 
     public RepoDetailFragment() {
         // Required empty public constructor
@@ -89,10 +90,14 @@ public class RepoDetailFragment extends Fragment implements ItemAdater.ItemAdate
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            repoId = RepoDetailFragmentArgs.fromBundle(getArguments()).getRepoId();
+
         }
 
         githubViewModel =
                 ViewModelProviders.of(getActivity()).get(GithubViewModel.class);
+
+        githubViewModel.getRepoDetail(repoId);
         githubRepoObserver = (Repo repo) ->{
             bindView(repo);
             githubViewModel.getRepoContributers(repo);

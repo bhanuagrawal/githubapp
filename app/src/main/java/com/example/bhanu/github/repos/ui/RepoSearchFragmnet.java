@@ -168,8 +168,9 @@ public class RepoSearchFragmnet extends Fragment implements ItemAdater.ItemAdate
 
     @Override
     public void onRepoSelected(int id) {
-        mListener.openRepoDetailPage();
-        githubViewModel.getRepoDetail(id);
+        RepoSearchFragmnetDirections.ActionRepoSearchFragmnetToRepoDetailFragment action = RepoSearchFragmnetDirections.actionRepoSearchFragmnetToRepoDetailFragment();
+        action.setRepoId(id);
+        mListener.openPage(action);
     }
 
     @Override

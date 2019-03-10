@@ -56,19 +56,23 @@
             android:id="@+id/action_repoDetailFragment_to_userDetailFragment"
             app:destination="@id/userDetailFragment" >
         </action>
+        <argument
+            android:name="repoId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/userDetailFragment"
         android:name="com.example.bhanu.github.repos.ui.UserDetailFragment"
         android:label="fragment_user_detail"
         tools:layout="@layout/fragment_user_detail" >
-        <action
-            android:id="@+id/action_userDetailFragment_to_repoSearchFragmnet"
-            app:destination="@id/repoSearchFragmnet" ></action>
         <argument
             android:name="username"
             app:argType="string"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_userDetailFragment_to_repoDetailFragment"
+            app:destination="@id/repoDetailFragment" />
 
     </fragment>
 </navigation>
