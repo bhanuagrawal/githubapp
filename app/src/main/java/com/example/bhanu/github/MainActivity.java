@@ -14,10 +14,8 @@ import com.example.bhanu.github.network.GithubAuthenticationService;
 import com.example.bhanu.github.network.model.Token;
 import com.example.bhanu.github.network.WebService;
 import com.example.bhanu.github.repos.GithubViewModel;
-import com.example.bhanu.github.repos.ui.NotificationFragment;
 import com.example.bhanu.github.repos.ui.OnFragmentInteractionListener;
-import com.example.bhanu.github.repos.ui.RepoSearchFragmnet;
-import com.example.bhanu.github.repos.ui.ReposFragment;
+import com.example.bhanu.github.repos.ui.RepoDetailFragmentDirections;
 
 import androidx.navigation.fragment.NavHostFragment;
 import retrofit2.Call;
@@ -136,5 +134,12 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.OnF
     public void openRepoDetailPage() {
         navHostFragment.getNavController().navigate(R.id.repoDetailFragment);
 
+    }
+
+    @Override
+    public void openUserDetailPage(String username) {
+
+        RepoDetailFragmentDirections.ActionRepoDetailFragmentToUserDetailFragment action = RepoDetailFragmentDirections.actionRepoDetailFragmentToUserDetailFragment(username);
+        navHostFragment.getNavController().navigate(action);
     }
 }

@@ -1,24 +1,35 @@
 package com.example.bhanu.github.repos.ui;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.bhanu.github.R;
+import com.example.bhanu.github.repos.GithubViewModel;
+import com.example.bhanu.github.repos.datamodel.Repo;
+import com.example.bhanu.github.repos.datamodel.UserVO;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link RepoDetailFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link RepoDetailFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class RepoDetailFragment extends Fragment {
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class RepoDetailFragment extends Fragment implements ItemAdater.ItemAdaterListner {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -28,7 +39,27 @@ public class RepoDetailFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+
+    @BindView(R.id.imageView3)
+    ImageView avatar;
+
+    @BindView(R.id.name)
+    TextView name;
+
+    @BindView(R.id.description)
+    TextView description;
+
+    @BindView(R.id.link)
+    TextView link;
+
+    @BindView(R.id.recyclerview)
+    RecyclerView contributersRV;
+
     private OnFragmentInteractionListener mListener;
+    private GithubViewModel githubViewModel;
+    private Observer<Repo> githubRepoObserver;
+    private ItemAdater itemApadter;
+    private Observer<ArrayList<UserVO>> contributersObsever;
 
     public RepoDetailFragment() {
         // Required empty public constructor
@@ -59,6 +90,32 @@ public class RepoDetailFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        githubViewModel =
+                ViewModelProviders.of(getActivity()).get(GithubViewModel.class);
+        githubRepoObserver = (Repo repo) ->{
+            bindView(repo);
+            githubViewModel.getRepoContributers(repo);
+        };
+
+
+        contributersObsever = (ArrayList<UserVO> users) -> {
+            itemApadter.onDataChange(users);
+
+        };
+
+        itemApadter = new ItemAdater(getContext(), this, ItemAdater.USERS);
+
+
+    }
+
+    private void bindView(Repo repo) {
+        name.setText(repo.getName());
+        description.setText(repo.getDescription());
+        link.setText(repo.getHtml_url());
+        Glide.with(getContext())
+                .load(repo.getOwner().getAvatar_url())
+                .into(avatar);
     }
 
     @Override
@@ -66,6 +123,23 @@ public class RepoDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_repo_detail, container, false);
+    }
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+        contributersRV.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        contributersRV.setAdapter(itemApadter);
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        githubViewModel.getRepoDetailMutableLiveData().observe(this, githubRepoObserver);
+        githubViewModel.getContibutersLiveData().observe(this, contributersObsever);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,5 +166,23 @@ public class RepoDetailFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        githubViewModel.getRepoDetailMutableLiveData().removeObserver(githubRepoObserver);
+        githubViewModel.getContibutersLiveData().removeObserver(contributersObsever);
+    }
+
+    @Override
+    public void onRepoSelected(int id) {
+
+
+    }
+
+    @Override
+    public void onUserSelected(String username) {
+        mListener.openUserDetailPage(username);
+
+    }
 
 }

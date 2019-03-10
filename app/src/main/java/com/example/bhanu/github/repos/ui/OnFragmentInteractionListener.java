@@ -7,4 +7,5 @@ public interface OnFragmentInteractionListener {
     void openloginPage();
     void openRepoPage();
     void openRepoDetailPage();
+    void openUserDetailPage(String id);
 }

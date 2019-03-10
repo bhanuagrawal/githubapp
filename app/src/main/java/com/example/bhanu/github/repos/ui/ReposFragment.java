@@ -167,4 +167,10 @@ public class ReposFragment extends Fragment implements ItemAdater.ItemAdaterList
 
     }
 
+    @Override
+    public void onUserSelected(String username) {
+
+    }
+
+
 }

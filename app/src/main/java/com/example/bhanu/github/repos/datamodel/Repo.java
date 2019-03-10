@@ -10,6 +10,24 @@ public class Repo implements Serializable {
     private int watchers_count;
     private int forks_count;
     private Owner owner;
+    private String contributors_url;
+    private String description;
+
+    public String getContributors_url() {
+        return contributors_url;
+    }
+
+    public void setContributors_url(String contributors_url) {
+        this.contributors_url = contributors_url;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Owner getOwner() {
         return owner;

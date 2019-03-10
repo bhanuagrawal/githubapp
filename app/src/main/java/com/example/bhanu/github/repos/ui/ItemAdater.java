@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.example.bhanu.github.R;
 import com.example.bhanu.github.repos.datamodel.EventVO;
 import com.example.bhanu.github.repos.datamodel.Repo;
+import com.example.bhanu.github.repos.datamodel.UserVO;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,7 @@ public class ItemAdater<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public static final int NOTIFICATION = 1;
     public static final int REPOS = 0;
+    public static final int USERS = 2;
 
     private final int itemVIewType;
     private ArrayList<T> mData;
@@ -48,6 +50,9 @@ public class ItemAdater<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case NOTIFICATION:
                 NotificationViewHolder notificationViewHolder = new NotificationViewHolder(LayoutInflater.from(context).inflate(R.layout.notification, parent, false));
                 return notificationViewHolder;
+            case USERS:
+                UserViewHolder userViewHolder = new UserViewHolder(LayoutInflater.from(context).inflate(R.layout.user, parent, false));
+                return userViewHolder;
             default:
                 return null;
         }
@@ -63,6 +68,9 @@ public class ItemAdater<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 break;
             case NOTIFICATION:
                 ((NotificationViewHolder)holder).onBind((EventVO) mData.get(position));
+                break;
+            case USERS:
+                ((UserViewHolder)holder).onBind((UserVO) mData.get(position));
                 break;
             default:
                 ((RepoViewHolder)holder).onBind((Repo) mData.get(position));
@@ -139,6 +147,42 @@ public class ItemAdater<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
+    class UserViewHolder extends RecyclerView.ViewHolder {
+
+
+        @BindView(R.id.repolayout)
+        ConstraintLayout layout;
+
+        @BindView(R.id.imageView2)
+        ImageView avatar;
+
+        @BindView(R.id.name)
+        TextView name;
+
+        public UserViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+
+        public void onBind(UserVO user) {
+
+            name.setText(user.getLogin());
+            Glide.with(context)
+                    .load(user.getAvatar_url())
+                    .into(avatar);
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemAdaterListner.onUserSelected(user.getLogin());
+                }
+            });
+        }
+
+
+    }
+
+
     class NotificationViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.name)
@@ -169,5 +213,6 @@ public class ItemAdater<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public interface ItemAdaterListner{
         void onRepoSelected(int id);
+        void onUserSelected(String username);
     }
 }

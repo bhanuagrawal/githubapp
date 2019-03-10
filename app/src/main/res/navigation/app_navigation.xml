@@ -51,5 +51,24 @@
         android:id="@+id/repoDetailFragment"
         android:name="com.example.bhanu.github.repos.ui.RepoDetailFragment"
         android:label="fragment_repo_detail"
-        tools:layout="@layout/fragment_repo_detail" />
+        tools:layout="@layout/fragment_repo_detail" >
+        <action
+            android:id="@+id/action_repoDetailFragment_to_userDetailFragment"
+            app:destination="@id/userDetailFragment" >
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/userDetailFragment"
+        android:name="com.example.bhanu.github.repos.ui.UserDetailFragment"
+        android:label="fragment_user_detail"
+        tools:layout="@layout/fragment_user_detail" >
+        <action
+            android:id="@+id/action_userDetailFragment_to_repoSearchFragmnet"
+            app:destination="@id/repoSearchFragmnet" ></action>
+        <argument
+            android:name="username"
+            app:argType="string"
+            app:nullable="true" />
+
+    </fragment>
 </navigation>

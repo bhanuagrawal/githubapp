@@ -170,4 +170,10 @@ public class NotificationFragment extends Fragment implements ItemAdater.ItemAda
     public void onRepoSelected(int id) {
 
     }
+
+    @Override
+    public void onUserSelected(String username) {
+
+    }
+
 }
