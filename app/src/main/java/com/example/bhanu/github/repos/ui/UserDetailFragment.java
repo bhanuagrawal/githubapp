@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.bhanu.github.R;
 import com.example.bhanu.github.repos.GithubViewModel;
-import com.example.bhanu.github.repos.datamodel.EventVO;
 import com.example.bhanu.github.repos.datamodel.Repo;
 import com.example.bhanu.github.repos.datamodel.UserVO;
 
@@ -137,13 +135,6 @@ public class UserDetailFragment extends Fragment implements ItemAdater.ItemAdate
         githubViewModel.getUserPublicProfile().observe(this, userProfileObserver);
         githubViewModel.getUserReposLiveData().observe(this, githubRepoObserver);
 
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override

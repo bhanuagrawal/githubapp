@@ -23,25 +23,7 @@ public class WebService {
     Application application;
 
     private static Retrofit retrofit = null;
-    private static Retrofit retrofitAuth = null;
 
-    public Retrofit getGithubAuthenticationClient() {
-        if (retrofitAuth==null) {
-            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-            httpClient.addInterceptor(logging);
-            Gson gson = new GsonBuilder()
-                    .setLenient()
-                    .create();
-            retrofitAuth = new Retrofit.Builder()
-                    .baseUrl(Constants.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .client(httpClient.build())
-                    .build();
-        }
-        return retrofitAuth;
-    }
 
     public Retrofit getGithubClient() {
         if (retrofit==null) {

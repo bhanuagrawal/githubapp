@@ -7,13 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.bhanu.github.R;
-import com.example.bhanu.github.repos.datamodel.EventVO;
 import com.example.bhanu.github.repos.datamodel.Repo;
 import com.example.bhanu.github.repos.datamodel.UserVO;
 
@@ -24,7 +22,6 @@ import butterknife.ButterKnife;
 
 public class ItemAdater<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public static final int NOTIFICATION = 1;
     public static final int REPOS = 0;
     public static final int USERS = 2;
 
@@ -47,9 +44,6 @@ public class ItemAdater<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case REPOS:
                 RepoViewHolder repoViewHolder = new RepoViewHolder(LayoutInflater.from(context).inflate(R.layout.repo, parent, false));
                 return repoViewHolder;
-            case NOTIFICATION:
-                NotificationViewHolder notificationViewHolder = new NotificationViewHolder(LayoutInflater.from(context).inflate(R.layout.notification, parent, false));
-                return notificationViewHolder;
             case USERS:
                 UserViewHolder userViewHolder = new UserViewHolder(LayoutInflater.from(context).inflate(R.layout.user, parent, false));
                 return userViewHolder;
@@ -65,9 +59,6 @@ public class ItemAdater<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch (holder.getItemViewType()){
             case REPOS:
                 ((RepoViewHolder)holder).onBind((Repo) mData.get(position));
-                break;
-            case NOTIFICATION:
-                ((NotificationViewHolder)holder).onBind((EventVO) mData.get(position));
                 break;
             case USERS:
                 ((UserViewHolder)holder).onBind((UserVO) mData.get(position));
@@ -177,34 +168,6 @@ public class ItemAdater<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     itemAdaterListner.onUserSelected(user.getLogin());
                 }
             });
-        }
-
-
-    }
-
-
-    class NotificationViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.name)
-        TextView name;
-
-        @BindView(R.id.full_name)
-        TextView fullName;
-
-
-        @BindView(R.id.time)
-        TextView time;
-
-        public NotificationViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
-
-        public void onBind(EventVO event) {
-            name.setText(event.getType());
-            fullName.setText(event.getRepo().getName());
-            time.setText(event.getCreated_at());
         }
 
 
