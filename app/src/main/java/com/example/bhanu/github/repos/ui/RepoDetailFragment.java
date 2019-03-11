@@ -8,10 +8,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +19,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.bhanu.github.R;
-import com.example.bhanu.github.repos.GithubViewModel;
+import com.example.bhanu.github.repos.viewmodels.RepoViewModel;
 import com.example.bhanu.github.repos.datamodel.Repo;
 import com.example.bhanu.github.repos.datamodel.UserVO;
 
@@ -57,7 +55,7 @@ public class RepoDetailFragment extends Fragment implements ItemAdater.ItemAdate
     RecyclerView contributersRV;
 
     private OnFragmentInteractionListener mListener;
-    private GithubViewModel githubViewModel;
+    private RepoViewModel repoViewModel;
     private Observer<Repo> githubRepoObserver;
     private ItemAdater itemApadter;
     private Observer<ArrayList<UserVO>> contributersObsever;
@@ -95,13 +93,13 @@ public class RepoDetailFragment extends Fragment implements ItemAdater.ItemAdate
 
         }
 
-        githubViewModel =
-                ViewModelProviders.of(getActivity()).get(GithubViewModel.class);
+        repoViewModel =
+                ViewModelProviders.of(getActivity()).get(RepoViewModel.class);
 
-        githubViewModel.getRepoDetail(repoId);
+        repoViewModel.getRepoDetail(repoId);
         githubRepoObserver = (Repo repo) ->{
             bindView(repo);
-            githubViewModel.getRepoContributers(repo);
+            repoViewModel.getRepoContributers(repo);
         };
 
 
@@ -151,8 +149,8 @@ public class RepoDetailFragment extends Fragment implements ItemAdater.ItemAdate
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        githubViewModel.getRepoDetailMutableLiveData().observe(this, githubRepoObserver);
-        githubViewModel.getContibutersLiveData().observe(this, contributersObsever);
+        repoViewModel.getRepoDetailMutableLiveData().observe(this, githubRepoObserver);
+        repoViewModel.getContibutersLiveData().observe(this, contributersObsever);
     }
 
 
@@ -176,8 +174,8 @@ public class RepoDetailFragment extends Fragment implements ItemAdater.ItemAdate
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        githubViewModel.getRepoDetailMutableLiveData().removeObserver(githubRepoObserver);
-        githubViewModel.getContibutersLiveData().removeObserver(contributersObsever);
+        repoViewModel.getRepoDetailMutableLiveData().removeObserver(githubRepoObserver);
+        repoViewModel.getContibutersLiveData().removeObserver(contributersObsever);
     }
 
     @Override

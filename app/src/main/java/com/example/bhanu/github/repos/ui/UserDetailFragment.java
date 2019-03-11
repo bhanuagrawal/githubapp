@@ -3,7 +3,6 @@ package com.example.bhanu.github.repos.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,7 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.bhanu.github.R;
-import com.example.bhanu.github.repos.GithubViewModel;
+import com.example.bhanu.github.repos.viewmodels.UserViewModel;
 import com.example.bhanu.github.repos.datamodel.Repo;
 import com.example.bhanu.github.repos.datamodel.UserVO;
 
@@ -39,7 +38,6 @@ public class UserDetailFragment extends Fragment implements ItemAdater.ItemAdate
 
     private OnFragmentInteractionListener mListener;
     private String username;
-    private GithubViewModel githubViewModel;
     private Observer<UserVO> userProfileObserver;
     private ItemAdater itemApadter;
 
@@ -53,6 +51,7 @@ public class UserDetailFragment extends Fragment implements ItemAdater.ItemAdate
     @BindView(R.id.recyclerview)
     RecyclerView reposRV;
     private Observer<ArrayList<Repo>> githubRepoObserver;
+    private UserViewModel userViewModel;
 
     public UserDetailFragment() {
         // Required empty public constructor
@@ -88,14 +87,14 @@ public class UserDetailFragment extends Fragment implements ItemAdater.ItemAdate
 
 
 
-        githubViewModel =
-                ViewModelProviders.of(getActivity()).get(GithubViewModel.class);
+        userViewModel =
+                ViewModelProviders.of(this).get(UserViewModel.class);
 
 
-        githubViewModel.fetchUserDetails(username);
+        userViewModel.fetchUserDetails(username);
         userProfileObserver = (UserVO user) ->{
             bindView(user);
-            githubViewModel.getUserRepos(user);
+            userViewModel.getUserRepos(user);
         };
 
 
@@ -132,8 +131,8 @@ public class UserDetailFragment extends Fragment implements ItemAdater.ItemAdate
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        githubViewModel.getUserPublicProfile().observe(this, userProfileObserver);
-        githubViewModel.getUserReposLiveData().observe(this, githubRepoObserver);
+        userViewModel.getUserPublicProfile().observe(this, userProfileObserver);
+        userViewModel.getUserReposLiveData().observe(this, githubRepoObserver);
 
     }
 
@@ -158,8 +157,8 @@ public class UserDetailFragment extends Fragment implements ItemAdater.ItemAdate
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        githubViewModel.getUserPublicProfile().removeObserver(userProfileObserver);
-        githubViewModel.getUserReposLiveData().removeObserver(githubRepoObserver);
+        userViewModel.getUserPublicProfile().removeObserver(userProfileObserver);
+        userViewModel.getUserReposLiveData().removeObserver(githubRepoObserver);
     }
 
     @Override

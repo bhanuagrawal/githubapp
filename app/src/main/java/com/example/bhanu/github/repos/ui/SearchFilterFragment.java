@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +13,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 
 import com.example.bhanu.github.R;
-import com.example.bhanu.github.repos.GithubViewModel;
+import com.example.bhanu.github.repos.viewmodels.GithubViewModel;
 import com.example.bhanu.github.repos.datamodel.Filter;
-
-import java.util.Observable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

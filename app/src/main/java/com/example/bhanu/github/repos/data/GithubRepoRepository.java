@@ -39,8 +39,10 @@ public class GithubRepoRepository {
         githubService.getRepoDetail(id).enqueue(callback);
     }
 
-    public void getRepoContributers(Repo repo, Callback<ArrayList<UserVO>> callback) {
-        githubService.getRepoContributers(repo.getContributors_url()).enqueue(callback);
+    public Call<ArrayList<UserVO>> getRepoContributers(Repo repo, Callback<ArrayList<UserVO>> callback) {
+        Call<ArrayList<UserVO>> call = githubService.getRepoContributers(repo.getContributors_url());
+        call.enqueue(callback);
+        return call;
     }
 
     public void getPublicProfile(String username, Callback<UserVO> callback) {

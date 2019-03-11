@@ -1,10 +1,8 @@
 package com.example.bhanu.github.repos.ui;
 
-import android.app.Dialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,7 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.bhanu.github.R;
-import com.example.bhanu.github.repos.GithubViewModel;
+import com.example.bhanu.github.repos.viewmodels.GithubViewModel;
 import com.example.bhanu.github.repos.datamodel.Filter;
 import com.example.bhanu.github.repos.datamodel.Repo;
 
